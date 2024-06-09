@@ -1,0 +1,35 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+          <button class="btn btn-primary mb-3" onclick="window.history.back(-1)"><i class="bi bi-arrow-left"></i> Kembali</button>
+            <h3 class="fw-bold mb-3"><%= title %></h3>
+            <% if (errors.length > 0) { %>
+              <% if (typeof errors != undefined) { %>
+                <div class="alert alert-danger" role="alert">
+                  <ul>
+                    <% errors.forEach(error => { %>
+                     <li><%= error.msg %></li>
+                    <% }) %>
+                  </ul>
+                </div>
+              <% } %>
+            <% } %>
+            <form action="/contact" method="POST">
+                <div class="mb-3">
+                  <label for="nama" class="form-label">Nama</label>
+                  <input type="text" class="form-control" id="nama" name="nama">
+                </div>
+                <div class="mb-3">
+                  <label for="noHP" class="form-label">Nomor HP</label>
+                  <input type="text" class="form-control" id="noHP" name="noHP">
+                </div>
+                <div class="mb-3">
+                  <label for="email" class="form-label">Email</label>
+                  <input type="text" class="form-control" id="email" name="email">
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="reset" class="btn btn-secondary">Reset</button>
+            </form>
+        </div>
+    </div>
+</div>

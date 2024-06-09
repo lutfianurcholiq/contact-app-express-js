@@ -1,0 +1,42 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <button class="btn btn-primary mb-3" onclick="window.history.back()"><i class="bi bi-arrow-left"></i> Kembali</button>
+            <h3 class="fw-bold mb-3"><%= title %></h3>
+            <% if (!contact) { %>
+                <div class="alert alert-danger" role="alert">
+                    <h3 class="text-center">Nama Tidak Ada Dalam Contact</h3>
+                </div>
+            <% } else { %>
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                  <h4 class="card-subtitle mb-2 text-body-secondary"><%= contact.nama %></h4>
+                  <p class="card-text"><%= contact.noHP %></p>
+                  <p class="card-text"><%= contact.email %></p>
+                </div>
+            </div>
+            <a href="/contact/edit/<%= contact.nama %>" class="btn btn-secondary mt-3">Edit Data</a>
+            <button class="btn btn-danger mt-3" data-bs-toggle="modal" data-bs-target="#hapusModal">Hapus Data</button>
+            <% } %>
+        </div>
+    </div>
+    <!-- Modal -->
+    
+    <div class="modal fade" id="hapusModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Konfirmasi Hapus</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <h5>Yakin ingin menghapus contact <%= contact.nama %> ?</h5>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+                <a href="/contact/delete/<%= contact.nama %>" class="btn btn-primary">Yakin</a>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
