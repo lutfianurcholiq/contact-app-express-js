@@ -76,6 +76,7 @@ app.get('/contact/add', (req, res) => {
     })
 })
 
+// route untuk post contact
 app.post('/contact', [
     check('email').isEmail().withMessage('Email Tidak Valid'),
     check('noHP').isMobilePhone('id-ID').withMessage('No HP Tidak Valid'),
@@ -101,27 +102,56 @@ app.post('/contact', [
         })
 
     } else {
-
         addContact(req.body)
         req.flash('msg', 'Data Contact Berhasil Ditambahkan')
         res.redirect('/contact')
-
     }
 })
 
-app.post('/contact/edit', (req, res) => {
-    res.send(req.body)
+// route untuk edit contact
+app.post('/contact/edit', [
+    check('email').isEmail().withMessage('Email Tidak Valid'),
+    check('noHP').isMobilePhone('id-ID').withMessage('No HP Tidak Valid'),
+    body('nama').custom((value, { req }) => {
+        
+        const duplicate = checkDuplicate(value)
+
+        if (value !== req.body.oldNama && duplicate) {
+            throw new Error('Nama Sudah Terdaftar Dalam Contact')
+        }
+
+        return true
+    })
+    ], (req, res) => {
+    const result = validationResult(req)
+
+    if (!result.isEmpty()) {
+        
+        res.render('edit-contact', {
+            layout: 'layouts/main-layout.ejs',
+            title: 'Tambah Data Contact',
+            errors: result.array(),
+            contact: req.body
+        })
+
+    } else {
+        updateContact(req.body)
+        req.flash('msg', 'Data Contact Berhasil Ditambahkan')
+        res.redirect('/contact')
+    }
 })
 
 
 app.get('/contact/edit/:nama', (req, res) => {
 
     const contact = findContact(req.params.nama)
+    const result = validationResult(req)
 
     res.render('edit-contact', {
         layout: 'layouts/main-layout.ejs',
         title: 'Edit Contact',
-        contact
+        contact,
+        errors: result.array()
     })
 })
 

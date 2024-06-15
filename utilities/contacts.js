@@ -56,8 +56,14 @@ const deleteContact = (nama) => {
 }
 
 // fungsi untuk edit isi contact
-const updateContact = (nama) => {
+const updateContact = (contactBaru) => {
     const contacts = loadContact()
+    const filteredContact = contacts.filter((contact) => contact.nama !== contactBaru.oldNama)
+    // menghapus oldNama dari contactBaru biar di push ke contact.json
+    delete contactBaru.oldNama
+    // melakukan push contact baru
+    filteredContact.push(contactBaru)
+    saveContacts(filteredContact)
 }
 
 module.exports = { loadContact, findContact, addContact, checkDuplicate, deleteContact, updateContact }
